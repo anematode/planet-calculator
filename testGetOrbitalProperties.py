@@ -55,4 +55,28 @@ for epoch in xrange(0,len(Tlist),2):
     data.append(Wlist[epoch] * degToRad);
     data.append((Wlist[epoch+1] - Wlist[epoch])/16384 * degToRad);
 
-print 'new Float64Array(%s);' % ','.join('%10.10f' % s for s in data)
+import math
+
+def shorten(f):
+  if (f == 0):
+    return '0'
+  if (abs(f) < 1):
+    normal = ('%10.10f' % f).replace(' ','').strip('0')
+    if (normal[0] == '-' and normal[1] == '0'):
+      normal = '-' + normal[2:]
+    exponent = int(math.floor(math.log10(abs(f))))
+    multiplyBy = f/(10 ** exponent);
+    if (multiplyBy % 1 == 0.0):
+      multiplyBy = int(multiplyBy)
+    else:
+      multiplyBy = round(multiplyBy,10+exponent)
+    new = str(multiplyBy) + 'e' + str(exponent)
+    if (len(new) > len(normal)):
+      if (normal == '.' or normal == '-.'):
+        return '0'
+      return normal
+    else:
+      return new
+  return str(f)
+
+print 'new Float64Array(%s);' % ','.join(shorten(s) for s in data)
