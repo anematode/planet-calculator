@@ -79,4 +79,4 @@ def shorten(f):
       return new
   return str(f)
 
-print 'new Float64Array(%s);' % ','.join(shorten(s) for s in data)
+print 'new Float64Array([%s]);' % ','.join(shorten(s) for s in data)
