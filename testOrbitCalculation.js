@@ -5,7 +5,7 @@ var e = 2.056302929816634E-01;  // Eccentricity
 var i = 7.005014140699190E+00 * Math.PI/180;  // Inclination
 var W = 4.833053733981040E+01 * Math.PI/180;  // Longitude of Ascending Node
 
-var M = (1.747958829506606E+02 + 4.09235526927*d) * Math.PI/180;  // Mean anomaly
+var M = (1.747958829506606E+02) * Math.PI/180;  // Mean anomaly
 var w = 2.912428280936123E+01 * Math.PI/180;  // Longitude of perihelion
 
 var E = M;  // Eccentric anomaly
