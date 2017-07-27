@@ -27,7 +27,7 @@ for i in xrange(1,len(splitData),5):
   MAlist.append(float(currLine[31:52]))
   currLine = splitData[i+3]
   Alist.append(float(currLine[5:26]))
-  Ylist.append(float(currLine[31:52]))
+  Ylist.append(float(currLine[57:78]))
 
 data = []
 
@@ -55,4 +55,4 @@ for epoch in xrange(0,len(Tlist),2):
     data.append(Wlist[epoch] * degToRad);
     data.append((Wlist[epoch+1] - Wlist[epoch])/16384 * degToRad);
 
-print data
+print 'new Float64Array(%s);' % ','.join('%10.10f' % s for s in data)
