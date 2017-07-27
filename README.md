@@ -1,5 +1,5 @@
 # planet-calculator
-Finds positions of planets and asteroids and such
+To find positions of planets and asteroids and such...
 
 Valid dates: JD -1930633.5 to JD 5373483.5 (BC 9999 Mar 20 to AD 9999 Dec 31 = 7304117 days)
 
