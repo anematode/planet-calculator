@@ -50,10 +50,10 @@ for epoch in xrange(0,len(Tlist),2):
     data.append((OMlist[epoch+1]-OMlist[epoch])/16384 * degToRad)
     
     data.append(MAlist[epoch] * degToRad)
-    data.append(32768 / Ylist[epoch] * 2 * math.pi)
+    data.append(360 / Ylist[epoch] * degToRad)
     
-    data.append(Wlist[epoch] * degToRad);
-    data.append((Wlist[epoch+1] - Wlist[epoch])/16384 * degToRad);
+    data.append(Wlist[epoch] * degToRad)
+    data.append((Wlist[epoch+1] - Wlist[epoch])/16384 * degToRad)
 
 import math
 
