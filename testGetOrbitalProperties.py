@@ -14,6 +14,11 @@ Alist = []
 Tlist = []
 Ylist = []
 
+epochlength = 32768
+# (in days)
+
+timediff = epochlength/2
+
 for i in xrange(1,len(splitData),5):
   currLine = splitData[i-1]
   Tlist.append(float(currLine[:10]))
@@ -38,22 +43,22 @@ for epoch in xrange(0,len(Tlist),2):
     endTime = Tlist[epoch+1]
     
     data.append(Alist[epoch])
-    data.append((Alist[epoch+1]-Alist[epoch])/16384)
+    data.append((Alist[epoch+1]-Alist[epoch])/timediff)
     
     data.append(EClist[epoch])
-    data.append((EClist[epoch+1]-EClist[epoch])/16384)
+    data.append((EClist[epoch+1]-EClist[epoch])/timediff)
     
     data.append(INlist[epoch] * degToRad)
-    data.append((INlist[epoch+1]-INlist[epoch])/16384 * degToRad)
+    data.append((INlist[epoch+1]-INlist[epoch])/timediff * degToRad)
     
     data.append(OMlist[epoch] * degToRad)
-    data.append((OMlist[epoch+1]-OMlist[epoch])/16384 * degToRad)
+    data.append((OMlist[epoch+1]-OMlist[epoch])/timediff * degToRad)
     
     data.append(MAlist[epoch] * degToRad)
     data.append(360 / Ylist[epoch] * degToRad)
     
     data.append(Wlist[epoch] * degToRad)
-    data.append((Wlist[epoch+1] - Wlist[epoch])/16384 * degToRad)
+    data.append((Wlist[epoch+1] - Wlist[epoch])/timediff * degToRad)
 
 import math
 
@@ -79,4 +84,4 @@ def shorten(f):
       return new
   return str(f)
 
-print 'new Float64Array([%s]);' % ','.join(shorten(s) for s in data)
+print 'new Float64Array(%s);' % ','.join(shorten(s) for s in data)
