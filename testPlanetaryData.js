@@ -7487,5 +7487,48 @@ var planetOrbitData = {
 5.087e-7,.0312379711,-3.6e-9,2.29188043951,-1.35e-7,5.3916247101,1.049482e-4,5.14635745003,-2.34237e-5,30.0638880279,2.31181e-5,
 .008739602,5.261e-7,.0312083783,-10.0e-11,2.29192276264,-1.036e-7,6.25570147491,1.043578e-4,5.14391985996,2.7903e-6,30.2821249452,
 -1.19995e-5,.0134270982,-5.147e-7,.0312155417,-3.4e-9,2.29096024346,-3.33e-8,.6101173136,1.032317e-4,5.35803411442,2.1999e-6])
+}
 
+var epochLength = 8192;
+
+function calculateBodyPosition(name,t) {
+  var thisData = planetOrbitData[name];
+  
+  var epoch = Math.round((t + 1930633.5) / epochLength);
+  
+  var adjT = t + 1930633.5 - epoch * epochLength;
+  epoch *= 12;
+  
+  var axis = thisData[epoch] + adjT * thisData[epoch+1];
+  var ecc = thisData[epoch+2] + adjT * thisData[epoch+3];
+  var incl = thisData[epoch+4] + adjT * thisData[epoch+5];
+  var ascn = thisData[epoch+6] + adjT * thisData[epoch+7];
+  var anomaly = (thisData[epoch+8] + adjT * thisData[epoch+9]) % (2 * Math.PI);
+  var peri = thisData[epoch+10] + adjT * thisData[epoch+11];
+  
+  return calculateBodyPositionFromOrbit(axis,ecc,incl,ascn,anomaly,peri);
+}
+
+function calculateBodyPositionFromOrbit(a,e,i,W,M,w) {
+  var E = M;  // Eccentric anomaly
+
+  // Newton's method: find root of M - E + e * sin(E)
+  while (true) {
+    var dE = (E - e * Math.sin(E) - M)/(1 - e * Math.cos(E));
+    E -= dE;
+    if (Math.abs(dE) < 1e-9) break;
+  }
+
+  // True anomaly
+  var v = Math.atan2(Math.sqrt(1 + e) * Math.sin(E / 2), Math.sqrt(1 - e) * Math.cos(E / 2)) * 2;
+
+  // Distance to center body
+  var r = (a * (1 - e * e)) / (1 + e * Math.cos(v));
+
+  // x, y, z coords relative to J2000 ecliptic
+  var x = r * (Math.cos(W) * Math.cos(w + v) - Math.sin(W) * Math.sin(w + v) * Math.cos(i));
+  var y = r * (Math.sin(W) * Math.cos(w + v) + Math.cos(W) * Math.sin(w + v) * Math.cos(i));
+  var z = r * (Math.sin(i) * Math.sin(w + v));
+
+  return [x,y,z];
 }
