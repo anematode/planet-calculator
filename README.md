@@ -1,7 +1,7 @@
 # planet-calculator
 To find positions of planets and asteroids and such...
 
-Valid dates: JD -1930633.5 to JD 5373483.5 (20 March 9999 BCE to 31 December 9999 CE = 7304117 days)
+Valid dates: JD -1930633.5 to JD 5373483.5 (BC 9999 Mar 20 (20 March 9999 BCE) to AD 9999 Dec 31 (31 December 9999 CE) = 7304117 days)
 
 # Storage of orbital elements for planets (or other solar-orbiting objects, for that matter)
 
